@@ -1,0 +1,86 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "easyignore"
+authors = [{ name = 'Andrew Scherer', email = 'scherand@oregonstate.edu' }]
+maintainers = [{ name = 'Andrew Scherer', email = 'scherand@oregonstate.edu' }]
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = ["requests>=2.32.3", "typer>=0.15.2"]
+license = { text = "MIT License" }
+classifiers = [
+    'Development Status :: 4 - Beta',
+    'Programming Language :: Python',
+    'Programming Language :: Python :: 3',
+    'Programming Language :: Python :: 3.9',
+    'Programming Language :: Python :: 3.10',
+    'Programming Language :: Python :: 3.11',
+    'Programming Language :: Python :: 3.12',
+    'Programming Language :: Python :: 3.13',
+    'License :: OSI Approved :: MIT License',
+    'Operating System :: OS Independent',
+    'Topic :: Software Development :: Libraries',
+    'Topic :: Software Development :: Libraries :: Python Modules',
+    'Intended Audience :: Developers',
+]
+
+[project.urls]
+homepage = "https://github.com/andrew-s28/easyignore"
+issues = "https://github.com/andrew-s28/easyignore/issues"
+
+[project.scripts]
+easyignore = "easyignore.main:app"
+
+[tool.uv]
+package = true
+
+[tool.ruff.lint.isort]
+known-local-folder = ["easyignore"]
+
+[dependency-groups]
+dev = ["pre-commit>=4.2.0", "pytest>=8.3.5"]
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+select = [
+    "F",    # Pyflakes
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "I",    # isort
+    "UP",   # pyupgrade
+    "B",    # flake8-bugbear
+    "C4",   # flake8-comprehensions
+    "PIE",  # flake8-pie
+    "TID",  # flake8-tidy-imports (absolute imports)
+    "PGH",  # pygrep-hooks
+    "PERF", # Perflint
+    "RUF",
+]
+ignore = [
+    #### modules
+    "C90", # mccabe complexity
+    "DJ",  # django
+
+    #### specific rules
+    "D401",    # non-imperative-mood
+    "D404",    # docstring-starts-with-this
+    "DTZ001",  # call-datetime-without-tzinfo
+    "DTZ007",  # call-datetime-strptime-without-zone
+    "E501",    # line-too-long
+    "FBT001",  # boolean-type-hint-positional-argument
+    "FBT002",  # boolean-default-value-positional-argument
+    "FBT003",  # boolean-positional-value-in-call
+    "PD011",   # pandas-use-of-dot-values
+    "PLR0913", # too-many-arguments
+    "PLR2004", # magic-value-comparison
+    "TRY003",  # external messages in exceptions are too verbose
+    "TD002",   # missing-todo-author
+    "TD003",   # missing-todo-link
+    "FIX002",  # line-contains-todo
+]
