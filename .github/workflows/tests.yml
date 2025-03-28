@@ -8,6 +8,17 @@ on:
   workflow_dispatch:
 
 jobs:
+  lint-format:
+    name: lint/format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install ruff
+        uses: astral-sh/ruff-action@v3
+      - name: Lint
+        run: ruff check --fix
+      - name: Format
+        run: ruff format
   test:
     name: ${{ matrix.os }} py${{ matrix.python-version }}
     runs-on: ${{ matrix.os }}
@@ -18,12 +29,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - name: Install ruff
-        uses: astral-sh/ruff-action@v3
-      - name: Lint
-        run: ruff check --fix
-      - name: Format
-        run: ruff format
       - name: Install uv and set the python version
         uses: astral-sh/setup-uv@v5
         with:
