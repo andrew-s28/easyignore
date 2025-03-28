@@ -65,9 +65,9 @@ def validate_gitignores(value: str) -> str:
         if v not in complete_gitignores():
             best_matches = get_close_matches(v, complete_gitignores(), n=5, cutoff=0)
             if best_matches:
-                raise typer.BadParameter(f"Invalid type: {v}. Perhaps you meant one of: {', '.join(best_matches)}.")
+                raise typer.BadParameter(f"Invalid language: {v}. Perhaps you meant one of: {', '.join(best_matches)}.")
             else:
-                raise typer.BadParameter(f"Invalid type: {v}. No close matches found.")
+                raise typer.BadParameter(f"Invalid language: {v}. No close matches found.")
     return value
 
 
@@ -209,6 +209,7 @@ def main(
         rprint(
             f"[green]Created {get_file_type_links(languages)} {'prettierignore' if prettier else 'gitignore'} at {path}[/green]"
         )
+    typer.Exit(code=0)
 
 
 if __name__ == "__main__":
