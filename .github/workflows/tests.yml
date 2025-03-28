@@ -6,6 +6,7 @@ on:
   pull_request:
     types: [opened, reopened, edited]
   workflow_dispatch:
+  workflow_call:
 
 jobs:
   lint-format:
@@ -35,3 +36,5 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Install the project
         run: uv sync --all-extras --dev
+      - name: Run tests
+        run: uvx pytest tests
