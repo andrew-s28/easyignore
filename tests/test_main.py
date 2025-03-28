@@ -32,6 +32,7 @@ def test_invalid_args():
 
 def test_help():
     result = runner.invoke(app, [])
+    print(result.stdout)
     assert result.exit_code == 0
     assert "Usage: main [OPTIONS] LANGUAGES..." in result.stdout
     assert "Arguments" in result.stdout
