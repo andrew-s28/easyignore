@@ -34,8 +34,9 @@ def test_help():
     result = runner.invoke(app, [])
     print(result.stdout)
     assert result.exit_code == 0
-    assert "Usage: main [OPTIONS] LANGUAGES..." in result.stdout
     assert "Arguments" in result.stdout
+    assert "LANGUAGES..." in result.stdout
+    assert "Options" in result.stdout
     assert "--path" in result.stdout
     assert "--append" in result.stdout
     assert "--overwrite" in result.stdout
@@ -46,6 +47,8 @@ def test_help():
     assert result.exit_code == 0
     assert "Usage: main [OPTIONS] LANGUAGES..." in result.stdout
     assert "Arguments" in result.stdout
+    assert "LANGUAGES..." in result.stdout
+    assert "Options" in result.stdout
     assert "--path" in result.stdout
     assert "--append" in result.stdout
     assert "--overwrite" in result.stdout
@@ -56,6 +59,8 @@ def test_help():
     assert result.exit_code == 0
     assert "Usage: main [OPTIONS] LANGUAGES..." in result.stdout
     assert "Arguments" in result.stdout
+    assert "LANGUAGES..." in result.stdout
+    assert "Options" in result.stdout
     assert "--path" in result.stdout
     assert "--append" in result.stdout
     assert "--overwrite" in result.stdout
