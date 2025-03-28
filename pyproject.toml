@@ -9,14 +9,13 @@ maintainers = [{ name = 'Andrew Scherer', email = 'scherand@oregonstate.edu' }]
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 dependencies = ["requests>=2.32.3", "typer>=0.15.2"]
 license = { text = "MIT License" }
 classifiers = [
     'Development Status :: 4 - Beta',
     'Programming Language :: Python',
     'Programming Language :: Python :: 3',
-    'Programming Language :: Python :: 3.9',
     'Programming Language :: Python :: 3.10',
     'Programming Language :: Python :: 3.11',
     'Programming Language :: Python :: 3.12',

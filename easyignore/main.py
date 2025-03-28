@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 import re
 from difflib import get_close_matches
 from pathlib import Path
