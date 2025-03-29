@@ -68,8 +68,6 @@ def complete_gitignores() -> list[str]:
 
 
 def validate_gitignores(value: list[str]) -> str:
-    if value is None:
-        return value
     for v in value:
         if v not in complete_gitignores():
             best_matches = get_close_matches(v, complete_gitignores(), n=5, cutoff=0)
