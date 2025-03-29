@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 name = "easyignore"
 authors = [{ name = 'Andrew Scherer', email = 'scherand@oregonstate.edu' }]
 maintainers = [{ name = 'Andrew Scherer', email = 'scherand@oregonstate.edu' }]
-version = "0.1.0"
+version = "0.1.1"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.10"
