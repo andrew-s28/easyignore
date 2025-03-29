@@ -6,15 +6,11 @@ build-backend = "hatchling.build"
 name = "easyignore"
 authors = [{ name = 'Andrew Scherer', email = 'scherand@oregonstate.edu' }]
 maintainers = [{ name = 'Andrew Scherer', email = 'scherand@oregonstate.edu' }]
-version = "0.2.0"
+version = "0.2.1"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.10"
-dependencies = [
-    "requests>=2.32.3",
-    "shellingham>=1.5.4",
- "typer>=0.15.2",
-]
+dependencies = ["requests>=2.32.3", "shellingham>=1.5.4", "typer>=0.15.2"]
 license = { text = "MIT License" }
 classifiers = [
     'Development Status :: 4 - Beta',
