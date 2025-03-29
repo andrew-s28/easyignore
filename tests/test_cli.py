@@ -11,20 +11,20 @@ runner = CliRunner()
 
 
 @pytest.fixture()
-def get_path():
+def path():
     return Path(__file__).parent.resolve()
 
 
 def test_app():
     result = runner.invoke(app, ["python", "-o"])
     assert result.exit_code == 0
-    assert Path(__file__).parent.joinpath(".gitignore").exists()
+    assert Path(".gitignore").exists()
 
 
 def test_multiple_args():
     result = runner.invoke(app, ["python", "node", "-o"])
     assert result.exit_code == 0
-    assert Path(__file__).parent.joinpath(".gitignore").exists()
+    assert Path(".gitignore").exists()
     result = runner.invoke(app, ["python", "node", "react", "-o"])
     assert result.exit_code == 0
     result = runner.invoke(app, ["python", "c++", "rust", "csharp", "-o"])
@@ -38,7 +38,7 @@ def test_invalid_args():
     assert "Invalid value for 'LANGUAGES...': Invalid language: invalidlang" in result.stdout
     # test for generating close matches
     assert "pythonvanilla, leiningen, xilinx, vivado, vaadin" in result.stdout
-    assert not Path(__file__).parent.joinpath(".gitignore").exists()
+    assert not Path(".gitignore").exists()
 
 
 def test_help():
@@ -59,7 +59,7 @@ def test_prettier():
         ],
     )
     assert result.exit_code == 0
-    assert Path(__file__).parent.joinpath(".prettierignore").exists()
+    assert Path(".prettierignore").exists()
     result = runner.invoke(app, ["python", "--overwrite", "--prettier"])
     assert result.exit_code == 0
     result = runner.invoke(app, ["python", "--append", "--prettier"])
@@ -69,7 +69,7 @@ def test_prettier():
 def test_append():
     result = runner.invoke(app, ["python", "-a"])
     assert result.exit_code == 0
-    assert Path(__file__).parent.joinpath(".gitignore").exists()
+    assert Path(".gitignore").exists()
     result = runner.invoke(app, ["python", "--append"])
     assert result.exit_code == 0
     result = runner.invoke(app, ["python", "-o", "-a"])
@@ -80,7 +80,7 @@ def test_append():
 def test_overwrite():
     result = runner.invoke(app, ["python", "-o"])
     assert result.exit_code == 0
-    assert Path(__file__).parent.joinpath(".gitignore").exists()
+    assert Path(".gitignore").exists()
     result = runner.invoke(app, ["python", "--overwrite"])
     assert result.exit_code == 0
     result = runner.invoke(app, ["python", "-a", "-o"])
@@ -97,7 +97,7 @@ def test_list():
     assert result.exit_code == 0
     result = runner.invoke(app, ["python", "--overwrite", "--list"])
     assert result.exit_code == 0
-    assert not Path(__file__).parent.joinpath(".gitignore").exists()
+    assert not Path(".gitignore").exists()
 
 
 def test_path():
@@ -105,7 +105,7 @@ def test_path():
     # first test with no overwrite - should work since the file doesn't exist
     result = runner.invoke(app, ["python", "-p", path])
     assert result.exit_code == 0
-    assert Path(__file__).parent.joinpath(".gitignore").exists()
+    assert Path(".gitignore").exists()
     # subsequent tests need to overwrite
     result = runner.invoke(app, ["python", "-o", "-p", path])
     assert result.exit_code == 0
