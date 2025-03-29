@@ -14,21 +14,10 @@ from easyignore.main import (
 )
 
 
-@pytest.fixture(autouse=True)
-def setup_and_teardown():
-    # Setup code
-    yield
-    # Teardown code
-    for path in Path(".").iterdir():
-        if path.name.endswith(".gitignore"):
-            path.unlink()
-        elif path.name.endswith(".prettierignore"):
-            path.unlink()
-
-
 @pytest.fixture()
 def example_gitignore():
-    return Path("testdata/.gitignore").read_text()
+    path = Path("testdata/.gitignore")
+    return path.read_text()
 
 
 def test_get_gitignore(example_gitignore):
