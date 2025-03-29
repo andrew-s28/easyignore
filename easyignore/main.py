@@ -10,6 +10,12 @@ from rich import print as rprint
 from rich.columns import Columns
 from rich.prompt import Prompt
 
+try:
+    import shellingham
+except ImportError:
+    shellingham = None
+    rprint("[red]Shell completion requires the shellingham package. Please install it with `uv add shellingham`.[/red]")
+
 app = typer.Typer(
     context_settings={
         "help_option_names": ["-h", "--help"],
@@ -17,8 +23,11 @@ app = typer.Typer(
     rich_markup_mode="rich",
     rich_help_panel=True,
     no_args_is_help=True,
+    add_completion=False,
     help="Create a .gitignore or .prettierignore file for over 500 languages and frameworks. Currently, the source for the ignore files is https://gitignore.io but this may change in the future to ensure the most up-to-date ignore files are used (see also https://github.com/toptal/gitignore.io/issues/650)",
 )
+# app_completion = typer.Typer(help="Generate and install completion scripts.", hidden=True)
+# app.add_typer(app_completion, name="completion")
 
 
 def get_file_type_links(languages: list[str]) -> str:
@@ -59,6 +68,8 @@ def complete_gitignores() -> list[str]:
 
 
 def validate_gitignores(value: list[str]) -> str:
+    if value is None:
+        return value
     for v in value:
         if v not in complete_gitignores():
             best_matches = get_close_matches(v, complete_gitignores(), n=5, cutoff=0)
@@ -83,8 +94,29 @@ def list_gitignores(value: bool) -> None:
     raise typer.Exit(code=0)
 
 
+def show_completion(ctx: typer.Context) -> None:
+    if shellingham is None:
+        raise typer.BadParameter(
+            "Shell completion requires the shellingham package. Please install it with `uv add shellingham`."
+        )
+    shell, _ = shellingham.detect_shell()
+    typer.completion.show_callback(ctx, None, shell)
+    raise typer.Exit(code=0)
+
+
+def install_completion(ctx: typer.Context) -> None:
+    if shellingham is None:
+        raise typer.BadParameter(
+            "Shell completion requires the shellingham package. Please install it with `uv add shellingham`."
+        )
+    shell, _ = shellingham.detect_shell()
+    typer.completion.install_callback(ctx, None, shell)
+    raise typer.Exit(code=0)
+
+
 @app.command(no_args_is_help=True)
 def main(
+    ctx: typer.Context,
     languages: Annotated[
         list[str],
         typer.Argument(
@@ -147,12 +179,34 @@ def main(
             callback=list_gitignores,
         ),
     ] = False,
+    # custom handling of install completion and show completion
+    # allows no arguments to be passed when installing or showing completion scripts
+    install_completion: Annotated[
+        bool | None,
+        typer.Option(
+            "--install-completion",
+            "-i",
+            help="install shell completion for easyignore",
+            is_eager=True,
+            callback=install_completion,
+        ),
+    ] = False,
+    show_completion: Annotated[
+        bool | None,
+        typer.Option(
+            "--show-completion",
+            "-s",
+            help="show shell completion for easyignore",
+            is_eager=True,
+            callback=show_completion,
+        ),
+    ] = False,
 ) -> None:
     """
     Create a .gitignore (or .prettierignore with --prettier) file for over 500 languages and frameworks.
     Currently, the source for the ignore files is https://gitignore.io but this may change in the future
     to ensure the most up-to-date ignore files are used (see also https://github.com/toptal/gitignore.io/issues/650).
-    """
+    #"""
     # Consider using https://donotcommit.com/api as a source instead of gitignore.io once they expand available languages
     typer.completion.completion_init()
     if append and overwrite:
