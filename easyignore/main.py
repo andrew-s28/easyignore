@@ -94,29 +94,30 @@ def list_gitignores(value: bool) -> None:
     raise typer.Exit(code=0)
 
 
-def show_completion(ctx: typer.Context) -> None:
-    if shellingham is None:
-        raise typer.BadParameter(
-            "Shell completion requires the shellingham package. Please install it with `uv add shellingham`."
-        )
-    shell, _ = shellingham.detect_shell()
-    typer.completion.show_callback(ctx, None, shell)
-    raise typer.Exit(code=0)
+def show_completion(ctx: typer.Context, value: bool) -> None:
+    if value:
+        if shellingham is None:
+            raise typer.BadParameter(
+                "Shell completion requires the shellingham package. Please install it with `uv add shellingham`."
+            )
+        shell, _ = shellingham.detect_shell()
+        typer.completion.show_callback(ctx, None, shell)
+        raise typer.Exit(code=0)
 
 
-def install_completion(ctx: typer.Context) -> None:
-    if shellingham is None:
-        raise typer.BadParameter(
-            "Shell completion requires the shellingham package. Please install it with `uv add shellingham`."
-        )
-    shell, _ = shellingham.detect_shell()
-    typer.completion.install_callback(ctx, None, shell)
-    raise typer.Exit(code=0)
+def install_completion(ctx: typer.Context, value: bool) -> None:
+    if value:
+        if shellingham is None:
+            raise typer.BadParameter(
+                "Shell completion requires the shellingham package. Please install it with `uv add shellingham`."
+            )
+        shell, _ = shellingham.detect_shell()
+        typer.completion.install_callback(ctx, None, shell)
+        raise typer.Exit(code=0)
 
 
 @app.command(no_args_is_help=True)
 def main(
-    ctx: typer.Context,
     languages: Annotated[
         list[str],
         typer.Argument(
@@ -187,8 +188,8 @@ def main(
             "--install-completion",
             "-i",
             help="install shell completion for easyignore",
-            is_eager=True,
             callback=install_completion,
+            is_eager=True,
         ),
     ] = False,
     show_completion: Annotated[
@@ -197,8 +198,8 @@ def main(
             "--show-completion",
             "-s",
             help="show shell completion for easyignore",
-            is_eager=True,
             callback=show_completion,
+            is_eager=True,
         ),
     ] = False,
 ) -> None:
