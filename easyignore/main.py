@@ -26,6 +26,8 @@ app = typer.Typer(
     add_completion=False,
     help="Create a .gitignore or .prettierignore file for over 500 languages and frameworks. Currently, the source for the ignore files is https://gitignore.io but this may change in the future to ensure the most up-to-date ignore files are used (see also https://github.com/toptal/gitignore.io/issues/650)",
 )
+typer.completion.completion_init()
+
 # app_completion = typer.Typer(help="Generate and install completion scripts.", hidden=True)
 # app.add_typer(app_completion, name="completion")
 
@@ -121,6 +123,7 @@ def main(
         typer.Argument(
             help="language/framework for .gitignore (enter as many as you like)",
             autocompletion=get_gitignores,
+            # shell_complete=get_gitignores,
             callback=validate_gitignores,
             is_eager=True,
         ),
@@ -205,9 +208,8 @@ def main(
     Create a .gitignore (or .prettierignore with --prettier) file for over 500 languages and frameworks.
     Currently, the source for the ignore files is https://gitignore.io but this may change in the future
     to ensure the most up-to-date ignore files are used (see also https://github.com/toptal/gitignore.io/issues/650).
-    #"""
+    """
     # Consider using https://donotcommit.com/api as a source instead of gitignore.io once they expand available languages
-    typer.completion.completion_init()
     if append and overwrite:
         raise typer.BadParameter(
             "Cannot use both append and overwrite options at the same time.",
