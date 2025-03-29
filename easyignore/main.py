@@ -58,7 +58,7 @@ def complete_gitignores() -> list[str]:
     return get_gitignores()
 
 
-def validate_gitignores(value: str) -> str:
+def validate_gitignores(value: list[str]) -> str:
     for v in value:
         if v not in complete_gitignores():
             best_matches = get_close_matches(v, complete_gitignores(), n=5, cutoff=0)
@@ -89,7 +89,7 @@ def main(
         list[str],
         typer.Argument(
             help="language/framework for .gitignore (enter as many as you like)",
-            autocompletion=complete_gitignores,
+            autocompletion=get_gitignores,
             callback=validate_gitignores,
             is_eager=True,
         ),
